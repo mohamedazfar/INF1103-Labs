@@ -6,8 +6,12 @@ while True:
     if stock.isdigit():
         stock = int(stock)
 
+        inventory += stock
+
     elif stock == 'quit':
         break
 
     else:
         print("Error! Enter only positive integer")
+
+print(inventory)
