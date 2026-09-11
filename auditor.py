@@ -6,6 +6,10 @@ while True:
     if stock.isdigit():
         stock = int(stock)
 
+        if (inventory+stock) > 500:
+            print("Total Inventory exceeded 500 units!")
+            break
+
         inventory += stock
 
     elif stock == 'quit':
