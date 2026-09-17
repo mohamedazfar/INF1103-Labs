@@ -14,7 +14,12 @@ def get_valid_input():
     else:
         print("Error! Enter only positive number.")
         return False
-        
+
+def process_delivery(current_total, new_value):
+    new_total = current_total + new_value 
+    return new_total
+
+
 
 inventory = 0
 error = 0
@@ -35,7 +40,9 @@ while True:
         break
 
     # add the stock to the inventory
-    inventory += stock
+    inventory = process_delivery(inventory, stock)
+
+    
 
 print("Total Units Processed:", inventory)
 print("Number of Failed/Rejected Entries:", error)
