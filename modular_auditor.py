@@ -19,6 +19,10 @@ def process_delivery(current_total, new_value):
     new_total = current_total + new_value 
     return new_total
 
+def calculate_tax(amount):
+    tax_percent = 0.1
+    tax_value = amount * tax_percent
+    return tax_value 
 
 
 inventory = 0
@@ -41,6 +45,8 @@ while True:
 
     # add the stock to the inventory
     inventory = process_delivery(inventory, stock)
+
+    print(calculate_tax(stock))
 
     
 
