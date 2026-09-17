@@ -1,6 +1,5 @@
 def get_valid_input():
-    prompt = "Enter a stock quantity: "
-    stock = input(prompt)
+    stock = input("Enter a stock quantity: ")
 
     # checks if the input is valid integer
     if stock.isdigit():
@@ -22,7 +21,12 @@ def process_delivery(current_total, new_value):
 def calculate_tax(amount):
     tax_percent = 0.1
     tax_value = amount * tax_percent
-    return tax_value 
+    return tax_value
+
+def generate_report(total_units, failed_attempts):
+
+    print("Total Units Processed:", total_units)
+    print("Number of Failed/Rejected Entries:", failed_attempts)
 
 
 inventory = 0
@@ -46,9 +50,6 @@ while True:
     # add the stock to the inventory
     inventory = process_delivery(inventory, stock)
 
-    print(calculate_tax(stock))
+    calculate_tax(stock)
 
-    
-
-print("Total Units Processed:", inventory)
-print("Number of Failed/Rejected Entries:", error)
+generate_report(inventory, error)
