@@ -1,30 +1,30 @@
 def get_valid_input():
+    '''Handles the prompt, handles input validation, and returns a valid integer or a quit signal'''
     stock = input("Enter a stock quantity: ")
 
-    # checks if the input is valid integer
     if stock.isdigit():
         return int(stock)
-
-    # exits the while loop if user wants to quit
+    
     elif stock == 'quit':
         return stock
-
-    # prints error message if user enters string or negative numbers
+    
     else:
         print("Error! Enter only positive number.")
         return False
 
 def process_delivery(current_total, new_value):
+    '''Calculates the new total and returns it'''
     new_total = current_total + new_value 
     return new_total
 
 def calculate_tax(amount):
+    '''Takes delivery amount and returns the tax'''
     tax_percent = 0.1
     tax_value = amount * tax_percent
     return tax_value
 
 def generate_report(total_units, failed_attempts):
-
+    '''Prints the final summary'''
     print("Total Units Processed:", total_units)
     print("Number of Failed/Rejected Entries:", failed_attempts)
 
@@ -41,13 +41,12 @@ while True:
 
     if stock == False:
         error += 1
+        continue
         
-    # exit if inventory exceeds 500
     if (inventory+stock) > inventory_limit:
         print("Alert: Total Inventory exceeded 500 units!")
         break
 
-    # add the stock to the inventory
     inventory = process_delivery(inventory, stock)
 
     calculate_tax(stock)
