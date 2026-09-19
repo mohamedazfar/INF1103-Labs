@@ -9,8 +9,8 @@ def get_valid_input():
         return stock
     
     else:
-        print("Error! Enter only positive number.")
-        return False
+        print("Error! Enter a non-negative integer.")
+        return None
 
 def process_delivery(current_total, new_value):
     '''Calculates the new total and returns it'''
@@ -19,19 +19,21 @@ def process_delivery(current_total, new_value):
 
 def calculate_tax(amount):
     '''Takes delivery amount and returns the tax'''
-    tax_percent = 0.1
-    tax_value = amount * tax_percent
-    return tax_value
+    tax = amount * 0.10
+    print("Delivery Processed. Tax for this Delivery:", tax)
+    return tax
 
-def generate_report(total_units, failed_attempts):
+def generate_report(total_units, failed_attempts, deliveries):
     '''Prints the final summary'''
+    print("--------------------------------------")
     print("Total Units Processed:", total_units)
     print("Number of Failed/Rejected Entries:", failed_attempts)
+    print("Total Deliveries processed:", deliveries)
 
-
+# Main program
 inventory = 0
 error = 0
-inventory_limit = 500
+deliveries = 0
 
 while True:
     stock = get_valid_input()
@@ -39,16 +41,13 @@ while True:
     if stock == 'quit':
         break
 
-    if stock == False:
+    if stock is None:
         error += 1
         continue
-        
-    if (inventory+stock) > inventory_limit:
-        print("Alert: Total Inventory exceeded 500 units!")
-        break
 
     inventory = process_delivery(inventory, stock)
+    deliveries += 1
 
     calculate_tax(stock)
-
-generate_report(inventory, error)
+    
+generate_report(inventory, error, deliveries)
