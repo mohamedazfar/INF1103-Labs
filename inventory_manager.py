@@ -18,23 +18,21 @@ def load(filename):
     return inventory
 
 def save(inventory, filename):
-
     with open(filename, "w") as file:
         json.dump(inventory, file, indent=4)
 
-    print(f"Saving inventory...\n"
-          "Inventory saved successfully to {filename}.")
+    print(f"\nSaving inventory...\n"
+          "Inventory saved successfully to {filename}.\n")
 
 def display(inventory):
-
-    print("Current Inventory\n"
+    print("\nCurrent Inventory\n"
           "--------------------------------------------")
     for product in inventory:
         print(" | ".join(f"{key}: {value}" for key, value in product.items()))
     print("--------------------------------------------\n")
 
 def add(inventory):
-    print("Add New Product")
+    print("\nAdd New Product")
     id = input("Product ID: ")
     name = input("Product Name: ")
     price = input("Price: ")
@@ -48,11 +46,11 @@ def add(inventory):
     }
 
     inventory.append(product)
-    print("Product added successfully!\n")
+    print("\nProduct added successfully!\n")
     return inventory
 
 def update(inventory):
-    print("Update Stock")
+    print("\nUpdate Stock")
     id = input("Enter Product ID: ")
     print("\nProduct Found:")
     
@@ -63,12 +61,12 @@ def update(inventory):
             new_stock = int(input("New Stock Quantity: "))
             product["Stock"] = new_stock
 
-    print("Stock update successfully!")
+    print("\nStock update successfully!\n")
 
     return inventory
 
 def search(inventory):
-    print("Search Product")
+    print("\nSearch Product")
 
     id = input("Enter Product ID: ")        
     found = False
@@ -81,11 +79,11 @@ def search(inventory):
             print("Name:", product["Name"])
             print("Price:", product["Price"])
             print("Stock:", product["Stock"])
-            print("-------------------------------------")
+            print("-------------------------------------\n")
             found = True
 
     if not found:
-        print("\nProduct not found.")
+        print("\nProduct not found.\n")
 
 def menu():
     print("-------------MENU-------------\n"
@@ -97,8 +95,6 @@ def menu():
     "6. Exit\n"
     "------------------------------\n"
 )
-
-
 
 # Main Program
 filename = "inventory.json"
@@ -132,6 +128,6 @@ while True:
 
     elif option == 6:
         save(inventory, filename)
-        print("Thank you for using Inventory Management System.\n"
-              "Program terminated.")
+        print("\nThank you for using Inventory Management System.\n"
+              "Program terminated.\n")
         break
