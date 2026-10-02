@@ -22,8 +22,8 @@ def save(inventory, filename):
     with open(filename, "w") as file:
         json.dump(inventory, file, indent=4)
 
-    print("Saving inventory before exit...\n"
-          "Inventory saved successfully.")
+    print(f"Saving inventory...\n"
+          "Inventory saved successfully to {filename}.")
 
 def display(inventory):
 
@@ -67,6 +67,25 @@ def update(inventory):
 
     return inventory
 
+def search(inventory):
+    print("Search Product")
+
+    id = input("Enter Product ID: ")        
+    found = False
+    
+    for product in inventory:
+        if product['ID'] == id:
+            print("\nProduct Found")
+            print("-------------------------------------")
+            print("ID:", product["ID"])
+            print("Name:", product["Name"])
+            print("Price:", product["Price"])
+            print("Stock:", product["Stock"])
+            print("-------------------------------------")
+            found = True
+
+    if not found:
+        print("\nProduct not found.")
 
 # Main Program
 filename = "inventory.json"
@@ -90,8 +109,8 @@ print("-------------MENU-------------\n"
 )
 
 #inventory = add(inventory)
-inventory = update(inventory)
-
+#inventory = update(inventory)
+inventory = search(inventory)
 
 #save(product, filename)
 
