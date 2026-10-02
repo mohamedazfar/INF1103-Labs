@@ -157,25 +157,19 @@ actions = {
 while True:
     option = int(input("Enter Option: "))
 
-    if option == 1:
-        display(inventory)
-
-    elif option == 2:
-        inventory = add(inventory)
-
-    elif option == 3:
-        inventory = update(inventory)
-
-    elif option == 4: 
-        search(inventory)
-
-    elif option == 5:
-        save(inventory, filename)
+    if option == 5:
+        actions[option](inventory, filename)
 
     elif option == 6:
-        exit(inventory, filename)
+        actions[option](inventory, filename)
         break
-    
+
+    elif option in actions:
+        result = actions[option](inventory)
+
+        if result is not None:
+            inventory = result
+                
     else:
         print("Invalid selection! Try again.")
         menu()
