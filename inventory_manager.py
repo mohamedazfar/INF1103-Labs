@@ -45,12 +45,28 @@ def add(inventory):
     "Name": name,
     "Price": price,
     "Stock": stock
-}
+    }
 
     inventory.append(product)
     print("Product added successfully!\n")
     return inventory
-            
+
+def update(inventory):
+    print("Update Stock")
+    id = input("Enter Product ID: ")
+    print("\nProduct Found:")
+    
+    for product in inventory:
+        if product['ID'] == id:
+            print("Name:", product["Name"])
+            print("Current Stock:", product["Stock"], "\n")
+            new_stock = int(input("New Stock Quantity: "))
+            product["Stock"] = new_stock
+
+    print("Stock update successfully!")
+
+    return inventory
+
 
 # Main Program
 filename = "inventory.json"
@@ -73,8 +89,10 @@ print("-------------MENU-------------\n"
 "------------------------------\n"
 )
 
-inventory = add(inventory)
+#inventory = add(inventory)
+inventory = update(inventory)
+
 
 #save(product, filename)
 
-display(inventory)
+#display(inventory)
