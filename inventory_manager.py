@@ -36,7 +36,7 @@ def add(inventory):
     id = input("Product ID: ")
     name = input("Product Name: ")
     price = input("Price: ")
-    stock = int(input("Stock Quantity: "))
+    stock = getValidStockInput("Stock Quantity: ")
 
     product  = {
     "ID": id,
@@ -58,7 +58,7 @@ def update(inventory):
         if product['ID'] == id:
             print("Name:", product["Name"])
             print("Current Stock:", product["Stock"], "\n")
-            new_stock = int(input("New Stock Quantity: "))
+            new_stock = getValidStockInput("New Stock Quantity: ")
             product["Stock"] = new_stock
 
     print("\nStock update successfully!\n")
@@ -96,6 +96,16 @@ def menu():
     "------------------------------\n"
 )
 
+def getValidStockInput(prompt):
+    while True:
+        stock = input(prompt)
+        if stock.isdigit():
+            break
+        else:
+            print("Error! Enter a non-negative integer.")
+
+    return int(stock)
+
 # Main Program
 filename = "inventory.json"
 
@@ -131,3 +141,7 @@ while True:
         print("\nThank you for using Inventory Management System.\n"
               "Program terminated.\n")
         break
+    
+    else:
+        print("Invalid selection! Try again.")
+        menu()
