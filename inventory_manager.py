@@ -9,8 +9,7 @@ def load(filename):
                 inventory = json.load(file)              
         except json.JSONDecodeError:
             inventory = []
-        print(f"{filename} found.\nInventory loaded successfully.\n")
-
+        
     else:
         inventory = []
         with open(filename, "w") as file:
@@ -28,6 +27,15 @@ def save(product, filename):
     print("Saving inventory before exit...\n"
           "Inventory saved successfully.")
 
+def display(filename):
+    inventory = load(filename)
+
+    print("Current Inventory\n"
+          "--------------------------------------------")
+    for product in inventory:
+        print(" | ".join(f"{key}: {value}" for key, value in product.items()))
+    print("--------------------------------------------\n")
+            
 
 # Main Program
 filename = "inventory.json"
@@ -38,6 +46,7 @@ print("====================================================\n"
       )
 
 load(filename)
+print(f"{filename} found.\nInventory loaded successfully.\n")
 
 print("-------------MENU-------------\n"
 "1. Display All Products\n"  
@@ -56,4 +65,6 @@ product  = {
     "Stock": 25
 }
 
-save(product, filename)
+#save(product, filename)
+
+display(filename)
