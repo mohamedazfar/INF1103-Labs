@@ -9,7 +9,7 @@ def load(filename):
                 inventory = json.load(file)              
         except json.JSONDecodeError:
             inventory = []
-        
+        print(f"{filename} found.\nInventory loaded successfully.\n")        
     else:
         inventory = []
         with open(filename, "w") as file:
@@ -17,9 +17,7 @@ def load(filename):
     
     return inventory
 
-def save(product, filename):
-    inventory = load(filename)
-    inventory.append(product)
+def save(inventory, filename):
 
     with open(filename, "w") as file:
         json.dump(inventory, file, indent=4)
@@ -27,14 +25,31 @@ def save(product, filename):
     print("Saving inventory before exit...\n"
           "Inventory saved successfully.")
 
-def display(filename):
-    inventory = load(filename)
+def display(inventory):
 
     print("Current Inventory\n"
           "--------------------------------------------")
     for product in inventory:
         print(" | ".join(f"{key}: {value}" for key, value in product.items()))
     print("--------------------------------------------\n")
+
+def add(inventory):
+    print("Add New Product")
+    id = input("Product ID: ")
+    name = input("Product Name: ")
+    price = input("Price: ")
+    stock = int(input("Stock Quantity: "))
+
+    product  = {
+    "ID": id,
+    "Name": name,
+    "Price": price,
+    "Stock": stock
+}
+
+    inventory.append(product)
+    print("Product added successfully!\n")
+    return inventory
             
 
 # Main Program
@@ -45,8 +60,8 @@ print("====================================================\n"
       "====================================================\n"
       )
 
-load(filename)
-print(f"{filename} found.\nInventory loaded successfully.\n")
+inventory = load(filename)
+
 
 print("-------------MENU-------------\n"
 "1. Display All Products\n"  
@@ -58,13 +73,8 @@ print("-------------MENU-------------\n"
 "------------------------------\n"
 )
 
-product  = {
-    "ID": "P003",
-    "Name": "Keyboard",
-    "Price": "$45.00",
-    "Stock": 25
-}
+inventory = add(inventory)
 
 #save(product, filename)
 
-display(filename)
+display(inventory)
