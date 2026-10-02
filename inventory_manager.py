@@ -169,7 +169,7 @@ while True:
 
         if result is not None:
             inventory = result
-                
+
     else:
         print("Invalid selection! Try again.")
         menu()
