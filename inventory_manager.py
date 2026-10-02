@@ -87,31 +87,51 @@ def search(inventory):
     if not found:
         print("\nProduct not found.")
 
+def menu():
+    print("-------------MENU-------------\n"
+    "1. Display All Products\n"  
+    "2. Add Product\n" 
+    "3. Update Stock\n" 
+    "4. Search Product\n" 
+    "5. Save Inventory\n"
+    "6. Exit\n"
+    "------------------------------\n"
+)
+
+
+
 # Main Program
 filename = "inventory.json"
 
-print("====================================================\n"
+print("\n====================================================\n"
       "INVENTORY MANAGEMENT SYSTEM\n"
       "====================================================\n"
       )
 
 inventory = load(filename)
 
+menu()
 
-print("-------------MENU-------------\n"
-"1. Display All Products\n"  
-"2. Add Product\n" 
-"3. Update Stock\n" 
-"4. Search Product\n" 
-"5. Save Inventory\n"
-"6. Exit\n"
-"------------------------------\n"
-)
+while True:
+    option = int(input("Enter Option: "))
 
-#inventory = add(inventory)
-#inventory = update(inventory)
-inventory = search(inventory)
+    if option == 1:
+        display(inventory)
 
-#save(product, filename)
+    elif option == 2:
+        inventory = add(inventory)
 
-#display(inventory)
+    elif option == 3:
+        inventory = update(inventory)
+
+    elif option == 4: 
+        search(inventory)
+
+    elif option == 5:
+        save(inventory, filename)
+
+    elif option == 6:
+        save(inventory, filename)
+        print("Thank you for using Inventory Management System.\n"
+              "Program terminated.")
+        break
