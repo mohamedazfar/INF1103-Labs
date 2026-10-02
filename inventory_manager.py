@@ -13,7 +13,7 @@ def load(filename):
     else:
         inventory = []
         with open(filename, "w") as file:
-            inventory = json.dump(inventory, file)
+            json.dump(inventory, file, indent=4)
     
     return inventory
 
@@ -21,8 +21,8 @@ def save(inventory, filename):
     with open(filename, "w") as file:
         json.dump(inventory, file, indent=4)
 
-    print(f"\nSaving inventory...\n"
-          "Inventory saved successfully to {filename}.\n")
+    print("\nSaving inventory...\n"
+          f"Inventory saved successfully to {filename}.\n")
 
 def display(inventory):
     print("\nCurrent Inventory\n"
@@ -34,6 +34,12 @@ def display(inventory):
 def add(inventory):
     print("\nAdd New Product")
     id = input("Product ID: ")
+
+    for product in inventory:
+        if product["ID"] == id:
+            print("Product ID already exists")
+            return inventory
+
     name = input("Product Name: ")
     price = getValidPriceInput("Price: ")
     stock = getValidStockInput("Stock Quantity: ")
@@ -52,16 +58,22 @@ def add(inventory):
 def update(inventory):
     print("\nUpdate Stock")
     id = input("Enter Product ID: ")
-    print("\nProduct Found:")
+    found = False
     
     for product in inventory:
         if product['ID'] == id:
+            print("\nProduct Found:")
             print("Name:", product["Name"])
             print("Current Stock:", product["Stock"], "\n")
             new_stock = getValidStockInput("New Stock Quantity: ")
             product["Stock"] = new_stock
+            found = True
+            break
 
-    print("\nStock update successfully!\n")
+    if found:
+        print("\nStock updated successfully!\n")
+    else:
+        print("\nProduct not found\n")
 
     return inventory
 
@@ -81,6 +93,7 @@ def search(inventory):
             print("Stock:", product["Stock"])
             print("-------------------------------------\n")
             found = True
+            break
 
     if not found:
         print("\nProduct not found.\n")
@@ -106,15 +119,19 @@ def getValidStockInput(prompt):
 
 def getValidPriceInput(prompt):
     while True:
+        price = input(prompt)
         try:
-            price = input(prompt)
             if float(price) > 0:
                 return f"${float(price):.2f}"
-            else:
-                break
+
         except ValueError:
             pass
         print("Error! Enter a non-negative number.")
+
+def exit(inventory, filename):
+    save(inventory, filename)
+    print("\nThank you for using Inventory Management System.\n"
+            "Program terminated.\n")
 
 # Main Program
 filename = "inventory.json"
@@ -127,6 +144,15 @@ print("\n====================================================\n"
 inventory = load(filename)
 
 menu()
+
+actions = {
+    1: display,
+    2: add,
+    3: update,
+    4: search,
+    5: save,
+    6: exit
+}
 
 while True:
     option = int(input("Enter Option: "))
@@ -147,9 +173,7 @@ while True:
         save(inventory, filename)
 
     elif option == 6:
-        save(inventory, filename)
-        print("\nThank you for using Inventory Management System.\n"
-              "Program terminated.\n")
+        exit(inventory, filename)
         break
     
     else:
