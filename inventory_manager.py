@@ -35,7 +35,7 @@ def add(inventory):
     print("\nAdd New Product")
     id = input("Product ID: ")
     name = input("Product Name: ")
-    price = input("Price: ")
+    price = getValidPriceInput("Price: ")
     stock = getValidStockInput("Stock Quantity: ")
 
     product  = {
@@ -100,11 +100,21 @@ def getValidStockInput(prompt):
     while True:
         stock = input(prompt)
         if stock.isdigit():
-            break
+            return int(stock)
         else:
             print("Error! Enter a non-negative integer.")
 
-    return int(stock)
+def getValidPriceInput(prompt):
+    while True:
+        try:
+            price = input(prompt)
+            if float(price) > 0:
+                return f"${float(price):.2f}"
+            else:
+                break
+        except ValueError:
+            pass
+        print("Error! Enter a non-negative number.")
 
 # Main Program
 filename = "inventory.json"
