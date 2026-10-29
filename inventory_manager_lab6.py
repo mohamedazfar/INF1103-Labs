@@ -4,10 +4,10 @@ import os
 # Represents and manages a single product
 class Product:
     def __init__(self, id, name, price, stock):
-        self.__id = str(id)
+        self.__id = id
         self.__name = name
-        self.__price = float(price)
-        self.__stock = int(stock)
+        self.__price = price
+        self.__stock = stock
 
     def get_id(self):
         return self.__id
@@ -24,11 +24,11 @@ class Product:
     def update_stock(self, quantity):
         self.__stock = quantity
 
-    def display_info(self):
+    def display_product(self):
         print("-------------------------------------")
         print("ID:", self.__id)
         print("Name:", self.__name)
-        print(f"Price:, ${self.__price}")
+        print(f"Price: ${self.__price:.2f}")
         print("Stock:", self.__stock)
         print("-------------------------------------\n")
 
@@ -47,15 +47,23 @@ class Inventory:
         for product in self.__products:
             if product.get_id() == product_id:
                 return product
-        return None  
+        return None
 
     def display_all(self):
-        print("\nCurrent Inventory\n")
+        print("\nCurrent Inventory")
         print("--------------------------------------------")
         for product in self.__products:
-            print(f"ID: {product.get_id()} | Name: {product.get_name()} | Price: ${product.get_price()} | Stock: {product.get_stock()} ")
+            print(f"ID: {product.get_id()} | Name: {product.get_name()} | Price: ${product.get_price():.2f} | Stock: {product.get_stock()} ")
         print("--------------------------------------------\n")
 
+    def get_next_id(self):
+        highest=0
+        for product in self.__products:
+            id = product.get_id()
+            if id.startswith("P") and id[1:].isdigit():
+                highest = max(highest, int(id[1:]))
+        return f"P{highest + 1:03d}"
+                
 # File Handling
 def load(filename):
     inventory = Inventory()
@@ -98,13 +106,8 @@ def save(inventory, filename):
 # Menu option functions
 def add_product_menu(inventory):
     print("\nAdd New Product")
-    id = input("Product ID: ")
-    product = inventory.search_product(id)
-
-    if product is not None:
-        print("Product ID already exists")
-        return
-
+    id = inventory.get_next_id()
+    print(f"Product ID: {id} ")
     name = input("Product Name: ")
     price = check_price_input("Price: ")
     stock = check_stock_input("Stock Quantity: ")
@@ -139,7 +142,7 @@ def search_product_menu(inventory):
         return
     
     print("\nProduct Found")
-    product.display_info()
+    product.display_product()
 
 # Helper functions
 def show_menu():
@@ -172,7 +175,7 @@ def check_price_input(prompt):
 def exit(inventory, filename):
     save(inventory, filename)
     print("\nThank you for using Inventory Management System.\n"
-            "Program terminated.\n")
+            "Program terminated.\n") 
 
 # Main Program
 filename = "inventory.json"
@@ -185,7 +188,7 @@ print("\n====================================================\n"
 inventory = load(filename)
 show_menu()
 
-while True:
+while True:   
     option = input("Enter Option: ")
 
     if option == "1":
@@ -208,5 +211,5 @@ while True:
         break
 
     else:
-        print("Invalid selection! Try again.")
+        print("Invalid selection! Try again.\n")
         show_menu()
