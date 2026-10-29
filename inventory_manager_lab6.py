@@ -29,7 +29,7 @@ class Product:
         print("-------------------------------------")
         print("ID:", self.__stock)
         print("Name:", self.__name)
-        print("Price:", self.__price)
+        print("Price:","$", self.__price)
         print("Stock:", self.__stock)
         print("-------------------------------------\n")
 
@@ -54,40 +54,50 @@ class Inventory:
         print("\nCurrent Inventory\n")
         print("--------------------------------------------")
         for product in self.__products:
-            print(f"ID: {product.get_id()} | Name: {product.get_name()} | Price: {product.get_price()} | Stock: {product.get_stock()} ")
+            print(f"ID: {product.get_id()} | Name: {product.get_name()} | Price: ${product.get_price()} | Stock: {product.get_stock()} ")
         print("--------------------------------------------\n")
 
-# Functions definitions
+# File Handling
 def load(filename):
+    inventory = Inventory()
+
     if os.path.exists(filename):
         try:
             with open(filename, "r") as file:
-                inventory = json.load(file)              
+                data = json.load(file)              
         except json.JSONDecodeError:
-            inventory = []
+            data = []
         print(f"{filename} found.\nInventory loaded successfully.\n")        
+    
     else:
-        inventory = []
+        data = []
         with open(filename, "w") as file:
-            json.dump(inventory, file, indent=4)
+            json.dump(data, file, indent=4)
+
+    for item in data:
+        product = Product(item["ID"], item["Name"], item["Price"], item["Stock"])
+        inventory.add_product(product)
     
     return inventory
 
 def save(inventory, filename):
+    data = []
+    for product in inventory.get_products():
+        data.append({
+            "ID": product.get_id(),
+            "Name": product.get_name(),
+            "Price": product.get_price(),
+            "Stock": product.get_stock()
+        })
+
     with open(filename, "w") as file:
-        json.dump(inventory, file, indent=4)
+        json.dump(data, file, indent=4)
 
     print("\nSaving inventory...\n"
           f"Inventory saved successfully to {filename}.\n")
 
-def display(inventory):
-    print("\nCurrent Inventory\n"
-          "--------------------------------------------")
-    for product in inventory:
-        print(" | ".join(f"{key}: {value}" for key, value in product.items()))
-    print("--------------------------------------------\n")
-
-def add(inventory):
+# Menu option functions
+def add_product_menu(inventory):
     print("\nAdd New Product")
     id = input("Product ID: ")
 
@@ -97,8 +107,8 @@ def add(inventory):
             return inventory
 
     name = input("Product Name: ")
-    price = getValidPriceInput("Price: ")
-    stock = getValidStockInput("Stock Quantity: ")
+    price = check_price_input("Price: ")
+    stock = check_stock_input("Stock Quantity: ")
 
     product  = {
     "ID": id,
@@ -154,7 +164,7 @@ def search(inventory):
     if not found:
         print("\nProduct not found.\n")
 
-def menu():
+def show_menu():
     print("-------------MENU-------------\n"
     "1. Display All Products\n"  
     "2. Add Product\n" 
@@ -162,24 +172,21 @@ def menu():
     "4. Search Product\n" 
     "5. Save Inventory\n"
     "6. Exit\n"
-    "------------------------------\n"
-)
+    "------------------------------\n")
 
-def getValidStockInput(prompt):
+def check_stock_input(prompt):
     while True:
         stock = input(prompt)
         if stock.isdigit():
             return int(stock)
-        else:
-            print("Error! Enter a non-negative integer.")
+        print("Error! Enter a non-negative integer.")
 
-def getValidPriceInput(prompt):
+def check_price_input(prompt):
     while True:
         price = input(prompt)
         try:
             if float(price) > 0:
                 return f"${float(price):.2f}"
-
         except ValueError:
             pass
         print("Error! Enter a non-negative number.")
@@ -199,10 +206,10 @@ print("\n====================================================\n"
 
 inventory = load(filename)
 
-menu()
+show_menu()
 
 actions = {
-    1: display,
+    1: display_all
     2: add,
     3: update,
     4: search,
@@ -216,7 +223,7 @@ while True:
 
     except ValueError:
         print("Invalid input! Enter a number.\n")
-        menu()
+        show_menu()
         continue
 
     if option == 5:
@@ -234,4 +241,4 @@ while True:
 
     else:
         print("Invalid selection! Try again.")
-        menu()
+        show_menu()
