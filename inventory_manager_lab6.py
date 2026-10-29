@@ -26,7 +26,7 @@ class Product:
 
     def display_info(self):
         print("-------------------------------------")
-        print("ID:", self.__stock)
+        print("ID:", self.__id)
         print("Name:", self.__name)
         print(f"Price:, ${self.__price}")
         print("Stock:", self.__stock)
@@ -140,7 +140,6 @@ def search_product_menu(inventory):
     
     print("\nProduct Found")
     product.display_info()
-    
 
 # Helper functions
 def show_menu():
@@ -165,7 +164,7 @@ def check_price_input(prompt):
         price = input(prompt)
         try:
             if float(price) > 0:
-                return f"${float(price):.2f}"
+                return round(float(price), 2)
         except ValueError:
             pass
         print("Error! Enter a non-negative number.")
@@ -184,39 +183,29 @@ print("\n====================================================\n"
       )
 
 inventory = load(filename)
-
 show_menu()
 
-actions = {
-    1: display_all
-    2: add,
-    3: update,
-    4: search,
-    5: save,
-    6: exit
-}
-
 while True:
-    try:
-        option = int(input("Enter Option: "))
+    option = input("Enter Option: ")
 
-    except ValueError:
-        print("Invalid input! Enter a number.\n")
-        show_menu()
-        continue
+    if option == "1":
+        inventory.display_all()
 
-    if option == 5:
-        actions[option](inventory, filename)
+    elif option == "2":
+        add_product_menu(inventory)
 
-    elif option == 6:
-        actions[option](inventory, filename)
+    elif option == "3":
+        update_product_menu(inventory)
+
+    elif option == "4":
+        search_product_menu(inventory)
+
+    elif option == "5":
+        save(inventory, filename)
+
+    elif option == "6":
+        exit(inventory, filename)
         break
-
-    elif option in actions:
-        result = actions[option](inventory)
-
-        if result is not None:
-            inventory = result
 
     else:
         print("Invalid selection! Try again.")
