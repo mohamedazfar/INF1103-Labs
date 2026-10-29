@@ -19,10 +19,10 @@ class Product:
         return self.__price
 
     def get_stock(self):
-            return self.__stock
+        return self.__stock
 
-    def update_stock(self, new_stock):
-        self.__stock = new_stock
+    def update_stock(self, quantity):
+        self.__stock = quantity
 
     def display_product(self):
         print("\nProduct Found")
@@ -33,9 +33,29 @@ class Product:
         print("Stock:", self.__stock)
         print("-------------------------------------\n")
 
+# Manages a collection of products
 class Inventory:
     def __init__(self):
         self.__products = []
+
+    def get_products(self):
+        return self.__products
+
+    def add_product(self, product):
+        self.__products.append(product)
+
+    def search_product(self, product_id):
+        for product in self.__products:
+            if product.get_id() == product_id:
+                return product
+        return None  
+
+    def display_all(self):
+        print("\nCurrent Inventory\n")
+        print("--------------------------------------------")
+        for product in self.__products:
+            print(f"ID: {product.get_id()} | Name: {product.get_name()} | Price: {product.get_price()} | Stock: {product.get_stock()} ")
+        print("--------------------------------------------\n")
 
 # Functions definitions
 def load(filename):
