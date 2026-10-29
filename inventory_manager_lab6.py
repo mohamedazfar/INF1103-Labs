@@ -24,12 +24,11 @@ class Product:
     def update_stock(self, quantity):
         self.__stock = quantity
 
-    def display_product(self):
-        print("\nProduct Found")
+    def display_info(self):
         print("-------------------------------------")
         print("ID:", self.__stock)
         print("Name:", self.__name)
-        print("Price:","$", self.__price)
+        print(f"Price:, ${self.__price}")
         print("Stock:", self.__stock)
         print("-------------------------------------\n")
 
@@ -100,70 +99,50 @@ def save(inventory, filename):
 def add_product_menu(inventory):
     print("\nAdd New Product")
     id = input("Product ID: ")
+    product = inventory.search_product(id)
 
-    for product in inventory:
-        if product["ID"] == id:
-            print("Product ID already exists")
-            return inventory
+    if product is not None:
+        print("Product ID already exists")
+        return
 
     name = input("Product Name: ")
     price = check_price_input("Price: ")
     stock = check_stock_input("Stock Quantity: ")
 
-    product  = {
-    "ID": id,
-    "Name": name,
-    "Price": price,
-    "Stock": stock
-    }
-
-    inventory.append(product)
+    product = Product(id, name, price, stock)
+    inventory.add_product(product)
     print("\nProduct added successfully!\n")
-    return inventory
-
-def update(inventory):
+    
+def update_product_menu(inventory):
     print("\nUpdate Stock")
     id = input("Enter Product ID: ")
-    found = False
+    product = inventory.search_product(id)
     
-    for product in inventory:
-        if product['ID'] == id:
-            print("\nProduct Found:")
-            print("Name:", product["Name"])
-            print("Current Stock:", product["Stock"], "\n")
-            new_stock = getValidStockInput("New Stock Quantity: ")
-            product["Stock"] = new_stock
-            found = True
-            break
-
-    if found:
-        print("\nStock updated successfully!\n")
-    else:
+    if product is None:
         print("\nProduct not found\n")
-
-    return inventory
-
-def search(inventory):
-    print("\nSearch Product")
-
-    id = input("Enter Product ID: ")        
-    found = False
+        return
     
-    for product in inventory:
-        if product['ID'] == id:
-            print("\nProduct Found")
-            print("-------------------------------------")
-            print("ID:", product["ID"])
-            print("Name:", product["Name"])
-            print("Price:", product["Price"])
-            print("Stock:", product["Stock"])
-            print("-------------------------------------\n")
-            found = True
-            break
+    print("\nProduct Found:")
+    print("Name:", product.get_name())
+    print("Current Stock:", product.get_stock(), "\n")
+    quantity = check_stock_input("New Stock Quantity: ")
+    product.update_stock(quantity)        
+    print("\nStock updated successfully!\n")
+    
+def search_product_menu(inventory):
+    print("\nSearch Product")
+    id = input("Enter Product ID: ") 
+    product = inventory.search_product(id)       
 
-    if not found:
+    if product is None:
         print("\nProduct not found.\n")
+        return
+    
+    print("\nProduct Found")
+    product.display_info()
+    
 
+# Helper functions
 def show_menu():
     print("-------------MENU-------------\n"
     "1. Display All Products\n"  
