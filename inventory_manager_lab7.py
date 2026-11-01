@@ -1,8 +1,10 @@
 import json
 import os
+from abc import ABC, abstractmethod
 
 # Represents and manages a single product
-class Product:
+class Product(ABC):
+    
     def __init__(self, id, name, price, stock):
         self._id = id
         self._name = name
@@ -30,6 +32,10 @@ class Product:
         print(f"Price: ${self._price:.2f}")
         print("Stock:", self._stock)
 
+    @abstractmethod
+    def get_fulfilment_info(self):
+        pass
+
 # Physical Product Class
 class PhysicalProduct(Product):
     def __init__(self, id, name, price, stock, weight):
@@ -43,6 +49,9 @@ class PhysicalProduct(Product):
         super().display_information()
         print(f"Weight: {self._weight}kg")
 
+    def get_fulfilment_info(self):
+        print("The product requires physical shipping")
+
 # Digital Product Class
 class DigitalProduct(Product):
     def __init__(self, id, name, price, stock, download_size):
@@ -55,6 +64,9 @@ class DigitalProduct(Product):
     def display_information(self):
         super().display_information()
         print(f"Download Size: {self._download_size}MB")
+
+    def get_fulfilment_info(self):
+        print("The product is delivered digitally")
 
 # Manages a collection of products
 class Inventory:
@@ -242,5 +254,13 @@ while True:
         show_menu()
 '''
 
-product1 = DigitalProduct("P001", "Pen", 4.0, 2, 1000)
+product1 = PhysicalProduct("P001", "Pen", 4.0, 2, 0.5)
 product1.display_information()
+product1.get_fulfilment_info()
+
+product2 = DigitalProduct("P001", "Pen", 4.0, 2, 1000)
+product2.display_information()
+product2.get_fulfilment_info()
+
+product3 = Product("P001", "Water", 5.0, 5)
+product3.display_information()
