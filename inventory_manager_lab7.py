@@ -40,8 +40,21 @@ class PhysicalProduct(Product):
         return self._weight
 
     def display_information(self):
-            super().display_information()
-            print(f"Weight: {self._weight}kg")
+        super().display_information()
+        print(f"Weight: {self._weight}kg")
+
+# Digital Product Class
+class DigitalProduct(Product):
+    def __init__(self, id, name, price, stock, download_size):
+        super().__init__(id, name, price, stock)
+        self._download_size = download_size
+
+    def get_download_size(self):
+        return self._download_size
+
+    def display_information(self):
+        super().display_information()
+        print(f"Download Size: {self._download_size}MB")
 
 # Manages a collection of products
 class Inventory:
@@ -229,5 +242,5 @@ while True:
         show_menu()
 '''
 
-product1 = PhysicalProduct("P001", "Pen", 4.0, 2, 0.2)
+product1 = DigitalProduct("P001", "Pen", 4.0, 2, 1000)
 product1.display_information()
