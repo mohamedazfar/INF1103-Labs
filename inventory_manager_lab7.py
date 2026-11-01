@@ -2,6 +2,9 @@ import json
 import os
 from abc import ABC, abstractmethod
 
+BASE_SHIPPING_FEE = 5.00
+RATE_PER_KG = 2.00
+
 # Represents and manages a single product
 class Product(ABC):
     
@@ -53,15 +56,13 @@ class PhysicalProduct(Product, CanBeShipped):
 
     def display_information(self):
         super().display_information()
-        print(f"Weight: {self._weight}kg")
+        print(f"Weight: {self._weight:.2f}kg")
 
     def get_fulfilment_info(self):
-        print("The product requires physical shipping")
+        return("Requires physical shipping")
 
     def calculate_shipping_cost(self):
-        BASE_SHIPPING_FEE = 5.00
-        RATE_PER_KG = 2.00
-        return (BASE_SHIPPING_FEE + (RATE_PER_KG*self._weight))
+        return (BASE_SHIPPING_FEE + (RATE_PER_KG * self._weight))
 
 # Digital Product Class
 class DigitalProduct(Product):
@@ -74,10 +75,10 @@ class DigitalProduct(Product):
 
     def display_information(self):
         super().display_information()
-        print(f"Download Size: {self._download_size}MB")
+        print(f"Download Size: {self._download_size:.2f}MB")
 
     def get_fulfilment_info(self):
-        print("The product is delivered digitally")
+        return("Delivered digitally")
 
 # Manages a collection of products
 class Inventory:
@@ -100,7 +101,11 @@ class Inventory:
         print("\nCurrent Inventory")
         print("--------------------------------------------")
         for product in self.__products:
-            print(f"ID: {product.get_id()} | Name: {product.get_name()} | Price: ${product.get_price():.2f} | Stock: {product.get_stock()} ")
+            print(f"ID: {product.get_id()} | Name: {product.get_name()} | Price: ${product.get_price():.2f} | Stock: {product.get_stock()}", end="")
+            if isinstance(product, PhysicalProduct):
+                print(f" | Weight: {product.get_weight():.2f}kg ")
+            elif isinstance(product, DigitalProduct):  
+                print(f" | Download Size: {product.get_download_size():.2f}MB ")  
         print("--------------------------------------------\n")
 
     def get_next_id(self):
@@ -129,7 +134,10 @@ def load(filename):
             json.dump(data, file, indent=4)
 
     for item in data:
-        product = Product(item["ID"], item["Name"], item["Price"], item["Stock"])
+        if item["Product Type"] == "Physical":
+            product = PhysicalProduct(item["ID"], item["Name"], item["Price"], item["Stock"], item["Weight"])
+        elif item["Product Type"] == "Digital":
+            product = DigitalProduct(item["ID"], item["Name"], item["Price"], item["Stock"], item["Download Size"])
         inventory.add_product(product)
     
     return inventory
@@ -137,13 +145,21 @@ def load(filename):
 def save(inventory, filename):
     data = []
     for product in inventory.get_products():
-        data.append({
+        row = {
             "ID": product.get_id(),
             "Name": product.get_name(),
             "Price": product.get_price(),
             "Stock": product.get_stock()
-        })
-
+        }
+        
+        if isinstance(product, PhysicalProduct):
+            row["Product Type"] = "Physical"
+            row["Weight"] = product.get_weight()
+        elif isinstance(product, DigitalProduct):
+            row["Product Type"] = "Digital"
+            row["Download Size"] = product.get_download_size()
+        
+        data.append(row)
     with open(filename, "w") as file:
         json.dump(data, file, indent=4)
 
@@ -156,10 +172,17 @@ def add_product_menu(inventory):
     id = inventory.get_next_id()
     print(f"Product ID: {id} ")
     name = input("Product Name: ")
-    price = check_price_input("Price: ")
-    stock = check_stock_input("Stock Quantity: ")
+    price = check_float_input("Price: ")
+    stock = check_int_input("Stock Quantity: ")
+    product_type = check_str_input("Product Type: ")
 
-    product = Product(id, name, price, stock)
+    if product_type == "physical":
+        weight = check_float_input("Weight: ")
+        product = PhysicalProduct(id, name, price, stock, weight)
+    if product_type == "digital":
+        download_size = check_float_input("Download Size: ")
+        product = DigitalProduct(id, name, price, stock, download_size)
+
     inventory.add_product(product)
     print("\nProduct added successfully!\n")
     
@@ -175,7 +198,7 @@ def update_product_menu(inventory):
     print("\nProduct Found:")
     print("Name:", product.get_name())
     print("Current Stock:", product.get_stock(), "\n")
-    quantity = check_stock_input("New Stock Quantity: ")
+    quantity = check_int_input("New Stock Quantity: ")
     product.update_stock(quantity)        
     print("\nStock updated successfully!\n")
     
@@ -204,14 +227,14 @@ def show_menu():
     "6. Exit\n"
     "------------------------------\n")
 
-def check_stock_input(prompt):
+def check_int_input(prompt):
     while True:
         stock = input(prompt)
         if stock.isdigit():
             return int(stock)
         print("Error! Enter a non-negative integer.")
 
-def check_price_input(prompt):
+def check_float_input(prompt):
     while True:
         price = input(prompt)
         try:
@@ -221,13 +244,20 @@ def check_price_input(prompt):
             pass
         print("Error! Enter a non-negative number.")
 
+def check_str_input(prompt):
+    while True:
+        choice = input(prompt).lower()
+        if choice == "physical" or choice == "digital":
+            return choice
+        print("Error! Enter Physical or Digital only")
+
 def exit(inventory, filename):
     save(inventory, filename)
     print("\nThank you for using Inventory Management System.\n"
             "Program terminated.\n") 
 
 
-'''# Main Program
+# Main Program
 filename = "inventory.json"
 
 print("\n====================================================\n"
@@ -263,13 +293,3 @@ while True:
     else:
         print("Invalid selection! Try again.\n")
         show_menu()
-'''
-
-product1 = PhysicalProduct("P001", "Pen", 4.0, 2, 0.5)
-product1.display_information()
-product1.get_fulfilment_info()
-print(product1.calculate_shipping_cost())
-
-product2 = DigitalProduct("P001", "Pen", 4.0, 2, 1000)
-product2.display_information()
-product2.get_fulfilment_info()
