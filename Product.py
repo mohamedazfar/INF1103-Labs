@@ -1,30 +1,35 @@
+from abc import ABC, abstractmethod
+
 # Represents and manages a single product
-class Product:
+class Product(ABC):
+    
     def __init__(self, id, name, price, stock):
-        self.__id = id
-        self.__name = name
-        self.__price = price
-        self.__stock = stock
+        self._id = id
+        self._name = name
+        self._price = price
+        self._stock = stock
 
     def get_id(self):
-        return self.__id
+        return self._id
 
     def get_name(self):
-        return self.__name
+        return self._name
 
     def get_price(self):
-        return self.__price
+        return self._price
 
     def get_stock(self):
-        return self.__stock
+        return self._stock
 
     def update_stock(self, quantity):
-        self.__stock = quantity
+        self._stock = quantity
 
-    def display_product(self):
-        print("-------------------------------------")
-        print("ID:", self.__id)
-        print("Name:", self.__name)
-        print(f"Price: ${self.__price:.2f}")
-        print("Stock:", self.__stock)
-        print("-------------------------------------\n")
+    def display_information(self):
+        print("ID:", self._id)
+        print("Name:", self._name)
+        print(f"Price: ${self._price:.2f}")
+        print("Stock:", self._stock)
+
+    @abstractmethod
+    def get_fulfilment_info(self):
+        pass

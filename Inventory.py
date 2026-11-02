@@ -1,3 +1,6 @@
+from PhysicalProduct import PhysicalProduct
+from DigitalProduct import DigitalProduct
+
 # Manages a collection of products
 class Inventory:
     def __init__(self):
@@ -19,7 +22,11 @@ class Inventory:
         print("\nCurrent Inventory")
         print("--------------------------------------------")
         for product in self.__products:
-            print(f"ID: {product.get_id()} | Name: {product.get_name()} | Price: ${product.get_price():.2f} | Stock: {product.get_stock()} ")
+            print(f"ID: {product.get_id()} | Name: {product.get_name()} | Price: ${product.get_price():.2f} | Stock: {product.get_stock()}", end="")
+            if isinstance(product, PhysicalProduct):
+                print(f" | Weight: {product.get_weight():.2f}kg ")
+            elif isinstance(product, DigitalProduct):  
+                print(f" | Download Size: {product.get_download_size():.2f}MB ")  
         print("--------------------------------------------\n")
 
     def get_next_id(self):

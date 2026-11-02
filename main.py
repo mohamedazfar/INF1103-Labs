@@ -1,5 +1,5 @@
 from file_handler import load, save
-from menu_functions import show_menu, add_product_menu, update_product_menu, search_product_menu, exit_menu 
+from menu_functions import show_menu, add_product_menu, update_product_menu, search_product_menu 
 
 # Main Program
 filename = "inventory.json"
@@ -32,7 +32,8 @@ while True:
 
     elif option == "6":
         save(inventory, filename)
-        exit_menu()
+        print("\nThank you for using Inventory Management System.\n"
+                    "Program terminated.\n")
         break
 
     else:

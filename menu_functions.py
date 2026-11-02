@@ -1,5 +1,6 @@
-from helpers import check_price_input, check_stock_input
-from Product import Product
+from helpers import check_float_input, check_int_input, check_str_input
+from PhysicalProduct import PhysicalProduct
+from DigitalProduct import DigitalProduct
 
 def show_menu():
     print("-------------MENU-------------\n"
@@ -17,10 +18,17 @@ def add_product_menu(inventory):
     id = inventory.get_next_id()
     print(f"Product ID: {id} ")
     name = input("Product Name: ")
-    price = check_price_input("Price: ")
-    stock = check_stock_input("Stock Quantity: ")
+    price = check_float_input("Price: ")
+    stock = check_int_input("Stock Quantity: ")
+    product_type = check_str_input("Product Type (Physical/Digital): ")
 
-    product = Product(id, name, price, stock)
+    if product_type == "physical":
+        weight = check_float_input("Weight: ")
+        product = PhysicalProduct(id, name, price, stock, weight)
+    elif product_type == "digital":
+        download_size = check_float_input("Download Size: ")
+        product = DigitalProduct(id, name, price, stock, download_size)
+
     inventory.add_product(product)
     print("\nProduct added successfully!\n")
     
@@ -36,7 +44,7 @@ def update_product_menu(inventory):
     print("\nProduct Found:")
     print("Name:", product.get_name())
     print("Current Stock:", product.get_stock(), "\n")
-    quantity = check_stock_input("New Stock Quantity: ")
+    quantity = check_int_input("New Stock Quantity: ")
     product.update_stock(quantity)        
     print("\nStock updated successfully!\n")
     
@@ -50,8 +58,6 @@ def search_product_menu(inventory):
         return
     
     print("\nProduct Found")
-    product.display_product()
-
-def exit_menu():
-    print("\nThank you for using Inventory Management System.\n"
-            "Program terminated.\n") 
+    print("-------------------------------------")
+    product.display_information()
+    print("-------------------------------------\n")
