@@ -39,7 +39,7 @@ class Product(ABC):
     def get_fulfilment_info(self):
         pass
 
-# CanBeShipped Abstract Base Class
+# CanBeShipped Abstract Base Class (Interface)
 class CanBeShipped(ABC):
     @abstractmethod
     def calculate_shipping_cost(self):
@@ -59,7 +59,7 @@ class PhysicalProduct(Product, CanBeShipped):
         print(f"Weight: {self._weight:.2f}kg")
 
     def get_fulfilment_info(self):
-        return("Requires physical shipping")
+        return("The product requires physical shipping")
 
     def calculate_shipping_cost(self):
         return (BASE_SHIPPING_FEE + (RATE_PER_KG * self._weight))
@@ -78,7 +78,7 @@ class DigitalProduct(Product):
         print(f"Download Size: {self._download_size:.2f}MB")
 
     def get_fulfilment_info(self):
-        return("Delivered digitally")
+        return("The product is delivered digitally")
 
 # Manages a collection of products
 class Inventory:
@@ -174,12 +174,12 @@ def add_product_menu(inventory):
     name = input("Product Name: ")
     price = check_float_input("Price: ")
     stock = check_int_input("Stock Quantity: ")
-    product_type = check_str_input("Product Type: ")
+    product_type = check_str_input("Product Type (Physical/Digital): ")
 
     if product_type == "physical":
         weight = check_float_input("Weight: ")
         product = PhysicalProduct(id, name, price, stock, weight)
-    if product_type == "digital":
+    elif product_type == "digital":
         download_size = check_float_input("Download Size: ")
         product = DigitalProduct(id, name, price, stock, download_size)
 
