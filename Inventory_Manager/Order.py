@@ -9,4 +9,9 @@ class Order():
     def add_order_line(self, product: Product, quantity, int) -> None:
         order_line = OrderLine(product, quantity)
         self.order_lines.append(order_line)
-        
+
+    def calculate_total(self) -> float:
+        total = 0
+        for orderline in self.order_lines:
+            total += orderline.calculate_subtotal()
+        return total
