@@ -1,13 +1,15 @@
 from abc import ABC, abstractmethod
+from Supplier import Supplier
 
 # Represents and manages a single product
 class Product(ABC):
     
-    def __init__(self, id, name, price, stock):
+    def __init__(self, id: str, name: str, price: float, stock: int, supplier: Supplier):
         self._id = id
         self._name = name
         self._price = price
         self._stock = stock
+        self._supplier = supplier
 
     def get_id(self):
         return self._id
@@ -20,6 +22,9 @@ class Product(ABC):
 
     def get_stock(self):
         return self._stock
+
+    def get_supplier(self):
+        return self._supplier
 
     def update_stock(self, quantity):
         self._stock = quantity

@@ -1,13 +1,14 @@
 from Product import Product
 from CanBeShipped import CanBeShipped
+from Supplier import Supplier
 
 BASE_SHIPPING_FEE = 5.00
 RATE_PER_KG = 2.00
 
 # Physical Product Class
 class PhysicalProduct(Product, CanBeShipped):
-    def __init__(self, id, name, price, stock, weight):
-        super().__init__(id, name, price, stock)
+    def __init__(self, id: str, name: str, price: float, stock: int, supplier: Supplier, weight: float):
+        super().__init__(id, name, price, stock, supplier)
         self._weight = weight
 
     def get_weight(self):
