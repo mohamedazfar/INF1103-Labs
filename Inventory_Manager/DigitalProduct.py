@@ -7,12 +7,12 @@ class DigitalProduct(Product):
         super().__init__(product_id, name, price, stock, supplier)
         self._download_size: float = download_size
 
-    def get_download_size(self):
+    def get_download_size(self) -> float:
         return self._download_size
 
     def display_information(self):
         super().display_information()
         print(f"Download Size: {self._download_size:.2f}MB")
 
-    def get_fulfilment_info(self):
+    def get_fulfilment_info(self) -> str:
         return("The product is delivered digitally")

@@ -5,13 +5,13 @@ class Supplier():
         self._name: str = name
         self._contact_email: str = contact_email
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self._supplier_id
 
-    def get_name(self):
+    def get_name(self) -> str:
         return self._name
 
-    def get_email(self):
+    def get_email(self) -> str:
         return self._contact_email
 
     def display_information(self):

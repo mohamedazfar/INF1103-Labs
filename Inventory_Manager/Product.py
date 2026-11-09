@@ -11,19 +11,19 @@ class Product(ABC):
         self._stock: int = stock
         self._supplier: Supplier = supplier
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self._product_id
 
-    def get_name(self):
+    def get_name(self) -> str:
         return self._name
 
-    def get_price(self):
+    def get_price(self) -> float:
         return self._price
 
-    def get_stock(self):
+    def get_stock(self) -> int:
         return self._stock
 
-    def get_supplier(self):
+    def get_supplier(self) -> Supplier:
         return self._supplier
 
     def update_stock(self, quantity):
