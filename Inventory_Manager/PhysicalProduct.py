@@ -9,7 +9,7 @@ RATE_PER_KG = 2.00
 class PhysicalProduct(Product, CanBeShipped):
     def __init__(self, id: str, name: str, price: float, stock: int, supplier: Supplier, weight: float):
         super().__init__(id, name, price, stock, supplier)
-        self._weight = weight
+        self._weight: float = weight
 
     def get_weight(self):
         return self._weight

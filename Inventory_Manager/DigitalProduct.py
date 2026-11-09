@@ -5,7 +5,7 @@ from Supplier import Supplier
 class DigitalProduct(Product):
     def __init__(self, id: str, name: str, price: float, stock: int, supplier: Supplier, download_size: float):
         super().__init__(id, name, price, stock, supplier)
-        self._download_size = download_size
+        self._download_size: float = download_size
 
     def get_download_size(self):
         return self._download_size

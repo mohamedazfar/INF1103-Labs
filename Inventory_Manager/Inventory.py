@@ -4,7 +4,7 @@ from DigitalProduct import DigitalProduct
 # Manages a collection of products
 class Inventory:
     def __init__(self):
-        self.__products = []
+        self.__products: list[PhysicalProduct, DigitalProduct] = []
 
     def get_products(self):
         return self.__products

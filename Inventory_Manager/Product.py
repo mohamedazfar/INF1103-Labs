@@ -5,11 +5,11 @@ from Supplier import Supplier
 class Product(ABC):
     
     def __init__(self, id: str, name: str, price: float, stock: int, supplier: Supplier):
-        self._id = id
-        self._name = name
-        self._price = price
-        self._stock = stock
-        self._supplier = supplier
+        self._id: str = id
+        self._name: str = name
+        self._price: float = price
+        self._stock: int = stock
+        self._supplier: Supplier = supplier
 
     def get_id(self):
         return self._id
