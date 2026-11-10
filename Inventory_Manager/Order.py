@@ -10,6 +10,11 @@ class Order:
         order_line = OrderLine(product, quantity)
         self.order_lines.append(order_line)
 
+    def remove_order_line(self, product_id: str) -> None:
+        for line in self.order_lines:
+            if line.product.get_id() == product_id:
+                self.order_lines.remove(line)
+                
     def calculate_total(self) -> float:
         total = 0
         for orderline in self.order_lines:
