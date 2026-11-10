@@ -25,15 +25,15 @@ class Inventory:
         return None
 
     def display_all(self) -> None:
-        print("\nCurrent Inventory")
-        print("--------------------------------------------")
-        for product in self.__products:
-            print(f"ID: {product.get_id()} | Name: {product.get_name()} | Price: ${product.get_price():.2f} | Stock: {product.get_stock()}", end="")
-            if isinstance(product, PhysicalProduct):
-                print(f" | Weight: {product.get_weight():.2f}kg ")
-            elif isinstance(product, DigitalProduct):  
-                print(f" | Download Size: {product.get_download_size():.2f}MB ")  
-        print("--------------------------------------------\n")
+        if len(self.__products) == 0:
+            print("Inventory is empty")
+
+        else:
+            print("\nCurrent Inventory")
+            print("--------------------------------------------")
+            for product in self.__products:
+                product.display_information()
+            print("--------------------------------------------\n")
 
     def get_next_id(self) -> str:
         highest=0
