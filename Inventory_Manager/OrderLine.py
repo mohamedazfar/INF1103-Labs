@@ -1,15 +1,9 @@
 from Product import Product
 
-class OrderLine():
-    def __int__(self, product: Product, quantity: int):
-        self._product: Product = product
-        self._quantity: int = quantity
-
-    def get_product(self) -> Product:
-        return self._product
-
-    def get_quantity(self) -> int:
-        return self._quantity
+class OrderLine:
+    def __init__(self, product: Product, quantity: int):
+        self.product: Product = product
+        self.quantity: int = quantity
 
     def calculate_subtotal(self) -> float:
-        return self._product.get_price() * self._quantity
+        return self.product.get_price() * self.quantity
