@@ -10,10 +10,10 @@ class Inventory:
     def get_products(self) -> list[Product]:
         return self.__products
 
-    def add_product(self, product: Product):
+    def add_product(self, product: Product) -> None:
         self.__products.append(product)
 
-    def remove_product(self, product_id: str):
+    def remove_product(self, product_id: str) -> None:
         for product in self.__products:
             if product.get_id() == product_id:
                 self.__products.remove(product)
@@ -24,7 +24,7 @@ class Inventory:
                 return product
         return None
 
-    def display_all(self):
+    def display_all(self) -> None:
         print("\nCurrent Inventory")
         print("--------------------------------------------")
         for product in self.__products:

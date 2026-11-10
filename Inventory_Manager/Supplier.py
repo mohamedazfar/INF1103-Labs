@@ -5,7 +5,7 @@ class Supplier:
         self.name: str = name
         self.contact_email: str = contact_email
 
-    def display_information(self):
+    def display_information(self) -> None:
         print("ID:", self.supplier_id)
         print("Name:", self.name)
         print("Email:", self.contact_email)

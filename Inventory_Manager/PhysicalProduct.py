@@ -14,7 +14,7 @@ class PhysicalProduct(Product, CanBeShipped):
     def get_weight(self) -> float:
         return self._weight
 
-    def display_information(self):
+    def display_information(self) -> None:
         super().display_information()
         print(f"Weight: {self._weight:.2f}kg")
 

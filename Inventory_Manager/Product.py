@@ -23,15 +23,15 @@ class Product(ABC):
     def get_stock(self) -> int:
         return self._stock
 
-    def update_stock(self, quantity):
+    def update_stock(self, quantity) -> None:
         self._stock = quantity
 
-    def display_information(self):
+    def display_information(self) -> None:
         print("ID:", self._product_id)
         print("Name:", self._name)
         print(f"Price: ${self._price:.2f}")
         print("Stock:", self._stock)
 
     @abstractmethod
-    def get_fulfilment_info(self):
+    def get_fulfilment_info(self) -> str:
         pass

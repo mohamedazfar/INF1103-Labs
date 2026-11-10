@@ -10,7 +10,7 @@ class DigitalProduct(Product):
     def get_download_size(self) -> float:
         return self._download_size
 
-    def display_information(self):
+    def display_information(self) -> None:
         super().display_information()
         print(f"Download Size: {self._download_size:.2f}MB")
 
