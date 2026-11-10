@@ -27,10 +27,7 @@ class Product(ABC):
         self._stock = quantity
 
     def display_information(self) -> None:
-        print("ID:", self._product_id)
-        print("Name:", self._name)
-        print(f"Price: ${self._price:.2f}")
-        print("Stock:", self._stock)
+        print(f"ID: {self._product_id} | Name: {self._name} | Price: ${self._price:.2f} | Stock: {self._stock}", end="")
 
     @abstractmethod
     def get_fulfilment_info(self) -> str:
