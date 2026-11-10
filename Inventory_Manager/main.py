@@ -1,6 +1,6 @@
 from file_handler import load, save
 from menu_functions import show_menu, add_product_menu, update_product_menu, search_product_menu 
-
+from Supplier import Supplier
 # Main Program
 filename = "inventory.json"
 
@@ -10,6 +10,7 @@ print("\n====================================================\n"
       )
 
 inventory = load(filename)
+default_supplier = Supplier("S1", "Supplier1", "supplier1@gmail.com")
 show_menu()
 
 while True:   
@@ -19,7 +20,7 @@ while True:
         inventory.display_all()
 
     elif option == "2":
-        add_product_menu(inventory)
+        add_product_menu(inventory, default_supplier)
 
     elif option == "3":
         update_product_menu(inventory)

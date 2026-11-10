@@ -13,7 +13,7 @@ def show_menu():
     "------------------------------\n")
 
 # Menu option functions
-def add_product_menu(inventory):
+def add_product_menu(inventory, supplier):
     print("\nAdd New Product")
     id = inventory.get_next_id()
     print(f"Product ID: {id} ")
@@ -24,10 +24,10 @@ def add_product_menu(inventory):
 
     if product_type == "physical":
         weight = check_float_input("Weight: ")
-        product = PhysicalProduct(id, name, price, stock, weight)
+        product = PhysicalProduct(id, name, price, stock, supplier, weight)
     elif product_type == "digital":
         download_size = check_float_input("Download Size: ")
-        product = DigitalProduct(id, name, price, stock, download_size)
+        product = DigitalProduct(id, name, price, stock, supplier, download_size)
 
     inventory.add_product(product)
     print("\nProduct added successfully!\n")

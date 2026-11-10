@@ -3,6 +3,7 @@ import json
 from Inventory import Inventory
 from PhysicalProduct import PhysicalProduct
 from DigitalProduct import DigitalProduct
+from Supplier import Supplier
 
 # File Handling
 def load(filename):
@@ -22,10 +23,13 @@ def load(filename):
             json.dump(data, file, indent=4)
 
     for item in data:
+
+        supplier = Supplier("S1", "Supplier1", "supplier1@gmail.com")
+
         if item["Product Type"] == "Physical":
-            product = PhysicalProduct(item["ID"], item["Name"], item["Price"], item["Stock"], item["Weight"])
+            product = PhysicalProduct(item["ID"], item["Name"], item["Price"], item["Stock"], supplier, item["Weight"])
         elif item["Product Type"] == "Digital":
-            product = DigitalProduct(item["ID"], item["Name"], item["Price"], item["Stock"], item["Download Size"])
+            product = DigitalProduct(item["ID"], item["Name"], item["Price"], item["Stock"], supplier, item["Download Size"])
         inventory.add_product(product)
     
     return inventory
