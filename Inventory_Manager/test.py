@@ -39,19 +39,41 @@ def test_aggregation():
     inventoryB.add_product(phone)
     inventoryB.display_all()
     
+def test_composition():
+    print("\nTest Composition")
+    print("-----------------")
+    order1 = Order("O1")
+
+    supplier1 = Supplier("S1", "tom", "tom@gmail.com")
+    pen = PhysicalProduct("P1", "Pen", 2.5, 3, supplier1, 0.3)
+    windows = DigitalProduct("P2", "Windows", 150, 5, supplier1, 5.2)
+    phone = PhysicalProduct("P3", "Iphone 18", 2000, 30, supplier1, 0.8)
+
+    order1.add_order_line(pen, 3)
+    order1.add_order_line(windows, 1)
+    order1.add_order_line(phone, 2)
+
+    for orderline in order1.order_lines:
+        print(f"Product Name:{orderline.product.get_name()}, Quantity: {orderline.quantity}, Subtotal:${orderline.calculate_subtotal():.2f}")
+    print(f"Order1 Total: ${order1.calculate_total():.2f}\n")
+
+    order2 = Order("O2")
+    order2.add_order_line(pen, 3)
+
+    print(f"\nBefore:{len(order2.order_lines)}")
+    order2.remove_order_line("P1")
+    print(f"After:{len(order2.order_lines)}")
+
     
 
 # Main
 test_association()
 test_aggregation()
+test_composition()
 
-'''order = Order("1")'''
 
-'''order.add_order_line(product1, 1)
-order.add_order_line(product2, 1)
-order.add_order_line(product3, 1)
 
-for orderline in order.order_lines:
+'''for orderline in order.order_lines:
     orderline.get_product().display_information()
     print(f"Quantity: {orderline.get_quantity()}\n")
 
@@ -64,8 +86,8 @@ for orderline in order.order_lines:
     orderline.get_product().display_information()
     print(f"Quantity: {orderline.get_quantity()}\n")
 
-print(order.calculate_total())
-'''
+print(order.calculate_total())'''
+
 
 
 
