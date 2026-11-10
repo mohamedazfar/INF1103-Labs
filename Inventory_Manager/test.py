@@ -5,27 +5,45 @@ from Inventory import Inventory
 from Order import Order
 
 # Test Association
-print("Test Association")
-print("-----------------")
+def test_association():
+    print("Test Association")
+    print("-----------------")
 
-supplier1 = Supplier("S1", "tom", "tom@gmail.com")
-pen = PhysicalProduct("P1", "Pen", 2.5, 3, supplier1, 0.3)
-windows = DigitalProduct("P2", "Windows", 150, 5, supplier1, 5.2)
+    supplier1 = Supplier("S1", "tom", "tom@gmail.com")
+    pen = PhysicalProduct("P1", "Pen", 2.5, 3, supplier1, 0.3)
+    windows = DigitalProduct("P2", "Windows", 150, 5, supplier1, 5.2)
 
-pen.supplier.display_information()
-windows.supplier.display_information()
+    # Display Supplier information for each product
+    pen.supplier.display_information()
+    windows.supplier.display_information()
 
-del supplier1
-pen.supplier.display_information()
-windows.supplier.display_information()
+    # Check is supplier still exists
+    del supplier1
+    pen.supplier.display_information()
+    windows.supplier.display_information()
 
+# Test Aggregation
+def test_aggregation():
+    print("\nTest Association")
+    print("-----------------")
 
-'''product3 = PhysicalProduct("P3", "Ruler", 3.5, 8, supplier1, 0.1)'''
+    supplier1 = Supplier("S1", "tom", "tom@gmail.com")
+    phone = PhysicalProduct("P3", "Iphone 18", 2000, 30, supplier1, 0.8)
+    
+    inventoryA = Inventory()
+    inventoryA.add_product(phone)
+    inventoryA.remove_product(phone)
+    phone.display_information()
 
-'''inventoryA = Inventory()
-inventoryA.add_product(product1)
-inventoryA.remove_product(product1)
-product1.display_information()'''
+    inventoryB = Inventory()
+    inventoryB.add_product(phone)
+    inventoryB.display_all()
+    
+    
+
+# Main
+test_association()
+test_aggregation()
 
 '''order = Order("1")'''
 
